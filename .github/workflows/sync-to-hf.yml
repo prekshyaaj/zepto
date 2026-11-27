@@ -1,0 +1,43 @@
+name: Sync backend to Hugging Face Space
+
+# Every push to main that touches the backend uploads it to the Space,
+# which then rebuilds the Docker image automatically.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/**"
+      - "Dockerfile"
+      - ".dockerignore"
+      - ".github/workflows/sync-to-hf.yml"
+  workflow_dispatch: # lets you run it by hand from the Actions tab
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Upload backend to the Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          pip install --quiet huggingface_hub
+          python - <<'EOF'
+          import os
+          from huggingface_hub import HfApi
+
+          HfApi(token=os.environ["HF_TOKEN"]).upload_folder(
+              repo_id="Prekshya/zepto_backend",
+              repo_type="space",
+              folder_path=".",
+              allow_patterns=["backend/**", "Dockerfile", ".dockerignore"],
+              ignore_patterns=["**/__pycache__/**", "**/.DS_Store", "**/*.pyc"],
+              delete_patterns=["**/__pycache__/**", "**/.DS_Store", "**/*.pyc"],
+              commit_message=f"Sync from GitHub {os.environ['GITHUB_SHA'][:7]}",
+          )
+          EOF

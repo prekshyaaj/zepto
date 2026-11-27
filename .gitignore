@@ -1,0 +1,73 @@
+# ==========================================
+# Secrets & Environment Variables
+# ==========================================
+.env
+.env.*
+!.env.example
+
+backend/.env
+frontend/.env.local
+
+# ==========================================
+# Python
+# ==========================================
+__pycache__/
+*.py[cod]
+*.pyo
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+.venv/
+venv/
+env/
+
+# ==========================================
+# Node / Next.js
+# ==========================================
+node_modules/
+.next/
+out/
+dist/
+build/
+
+*.tsbuildinfo
+
+frontend/node_modules/
+frontend/.next/
+frontend/.tools/
+frontend/tsconfig.tsbuildinfo
+
+# ==========================================
+# OS / Editor Files
+# ==========================================
+.DS_Store
+.idea/
+.vscode/
+
+# ==========================================
+# Jupyter
+# ==========================================
+.ipynb_checkpoints/
+
+# ==========================================
+# Training / Development Only
+# ==========================================
+chatbot/cnn/cnn_dataset/
+datasets_raw/
+
+# Local training artifacts
+recommender/*.npy
+
+# ==========================================
+# Runtime Uploads / Temporary Files
+# ==========================================
+uploads/
+tmp/
+temp/
+
+# ==========================================
+# Archives
+# ==========================================
+*.zip
